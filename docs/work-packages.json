@@ -546,12 +546,12 @@
       "source_url": "https://github.com/djh00t/steve/issues/84",
       "readiness": "BLOCKED",
       "readiness_source": "live_blocked_label",
-      "delivery_state": "IN_PROGRESS",
+      "delivery_state": "DELIVERED",
       "child_ids": [],
       "acceptance_command_kind": null,
       "acceptance_command_verified": null,
       "reconciled_readiness": "BLOCKED",
-      "reconciled_readiness_basis": "live_issue"
+      "reconciled_readiness_basis": "PR #619 merged at c1e4caa84b4654a39b954ab73d5eaa8e3dd6013b; accounting contracts and ownership released; operator acceptance remains pending the combined M1 gate"
     },
     {
       "id": "STV-M0-02",
@@ -1408,11 +1408,11 @@
       "source_url": "https://github.com/djh00t/steve/issues/97",
       "readiness": "BLOCKED",
       "readiness_source": "live_blocked_label",
-      "delivery_state": "IN_PROGRESS",
+      "delivery_state": "DELIVERED",
       "acceptance_command_kind": null,
       "acceptance_command_verified": null,
       "reconciled_readiness": "BLOCKED",
-      "reconciled_readiness_basis": "live_issue"
+      "reconciled_readiness_basis": "PR #619 merged at c1e4caa84b4654a39b954ab73d5eaa8e3dd6013b; settlement repairs merged in PR #628 at a28867f009d92dbe25dabe36037310102dad97c5 and PR #633 at fdc96c136d98574194822ba436f3b4c58408fc50; the named e2e test is on main; operator acceptance remains pending the combined M1 gate"
     },
     {
       "id": "STV-M1-08",
