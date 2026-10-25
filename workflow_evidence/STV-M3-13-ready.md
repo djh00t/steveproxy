@@ -32,7 +32,7 @@ The existing `sqlite_rejects_foundation_column_drift` scenario covers invalid fo
 
 ## Required child issue
 
-Create a child of #103 titled `[STV-M3-13D] Reject SQLite foundation tables without a migration ledger`. Do not create a work branch until that child issue exists.
+**Issue-tracker prerequisite (orchestrator-owned):** Before dispatch, the orchestrator creates and accepts child issue `[STV-M3-13D] Reject SQLite foundation tables without a migration ledger` under #103, using this brief's behavior and acceptance as its scope. Issue creation is not part of this implementation package or its owned paths. Do not create a branch or begin implementation until the child issue exists and the orchestrator has assigned this brief. If the child issue is not created, report BLOCKED; do not publish an issue or broaden scope yourself.
 
 **Kind:** one runtime guard.
 
@@ -56,16 +56,18 @@ Use one `EXISTS` query and `anyhow::bail!`. Do not add a migration framework, co
 
 ## Acceptance scenario
 
+The named scenario's primary acceptance is the existing ledgerless-table rejection and preservation assertions below. Do not treat this child as qualification of the full `sqlite_migration_runner` command or as completion of #103. The fresh v0 -> v1 positive case remains part of the composed `sqlite_migration_runner` acceptance on #103 and is omitted from this child.
+
 Add one real-process test named `sqlite_rejects_ledgerless_foundation`.
 
-Given a temporary SQLite database with the shipped foundation table shape, one sentinel row, and an empty migration ledger, when Steve starts, then it exits before readiness with the guard message.
+Create the exact shipped table shapes from the SQLite DDL at `src/storage/db.rs:546-553` and `588-593`, insert one sentinel row, and confirm the ledger has zero rows before starting Steve.
+
+Given that temporary SQLite database, when Steve starts, then it exits before `listeners_ready` with an error that contains exactly `SQLite foundation table exists without a migration ledger`, plus the harness's `Steve exited` wrapper.
 
 After the failed start, query SQLite directly and assert that:
 
-- `steve_schema_migrations` has zero rows;
+- `steve_schema_migrations` still has zero rows;
 - `steve_background_events` still has the sentinel row with all four values unchanged.
-
-Also start Steve against a fresh temporary database and assert readiness plus ledger row `(1, "m0_foundation")`. This positive case proves the guard does not block first install.
 
 Run:
 
@@ -77,7 +79,7 @@ The command must select exactly one test. Before the implementation it must fail
 
 ## Mutation evidence
 
-Make the guard return false for an existing ledgerless foundation table. The named scenario must fail at the intended readiness assertion. Restore the guard and rerun the command.
+Temporarily bypass the new existing-foundation-table rejection (for example, force its `EXISTS` result to false). The `sqlite_rejects_ledgerless_foundation` test must then fail at its expected startup/readiness-rejection assertion. Restore the guard and rerun the exact command.
 
 Record the mutation outcome as caught, survived, equivalent, unviable, or timeout. Do not invent a broader mutation score.
 
@@ -90,6 +92,8 @@ Record the mutation outcome as caught, survived, equivalent, unviable, or timeou
 - Open a ready-for-review PR that uses `Fixes #<child issue>` and links #631 and #103.
 - Report the exact head SHA, local results, and hosted check state.
 - Do not merge, approve, deploy, or close #103.
+
+The child command is `sqlite_rejects_ledgerless_foundation`; it is not the inventory's `sqlite_migration_runner` acceptance command and does not mark #103 complete. Before #103 is ready for acceptance, update/compose the producer's `sqlite_migration_runner` test so it includes the relevant ledgerless rejection (and fresh v0 -> v1 positive case) and run the exact inventory command selecting exactly one test. Keep the inventory command producer-introduced until verified on its candidate branch; do not mark it verified from this child alone.
 
 ## Boundaries
 
